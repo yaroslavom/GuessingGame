@@ -1,4 +1,5 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
+import Colors from "../constants/Colors";
 
 const PrimaryButton = ({ children, pressHandler, successColor }) => {
   const combineStyles = StyleSheet.flatten([
@@ -9,7 +10,9 @@ const PrimaryButton = ({ children, pressHandler, successColor }) => {
   return (
     <View style={styles.outerContainer}>
       <Pressable
-        style={({ pressed }) => pressed ? [styles.pressed, combineStyles] : combineStyles}
+        style={({ pressed }) =>
+          pressed ? [styles.pressed, combineStyles] : combineStyles
+        }
         onPress={pressHandler}
         android_ripple={
           successColor ? styles.pressedGreenColor : styles.pressedYaleColor
@@ -36,10 +39,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
   },
   greenColor: {
-    backgroundColor: "#2e8857",
+    backgroundColor: Colors.success500,
   },
   yaleColor: {
-    backgroundColor: "#0e4c92",
+    backgroundColor: Colors.info500,
   },
   text: {
     color: "#fff",
@@ -47,14 +50,14 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   pressedGreenColor: {
-    color: "#266643",
+    color: Colors.success600,
   },
   pressedYaleColor: {
-    color: "#0d3c73",
+    color: Colors.info600,
   },
   pressed: {
-    opacity: 0.9
-  }
+    opacity: 0.9,
+  },
 });
 
 export default PrimaryButton;
