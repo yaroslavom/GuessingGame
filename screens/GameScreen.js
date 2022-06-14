@@ -1,8 +1,10 @@
-import { View, StyleSheet, Text, Alert } from "react-native";
-import { useState } from "react";
-import Title from "../components/ui/Title";
+import { Alert } from "react-native";
+import { useEffect, useState } from "react";
 import NumberContainer from "../components/game/NumberContainer";
-import PrimaryButton from "../components/ui/PrimaryButton";
+import ButtonGroup from "../components/ui/ButtonGroup";
+import Title from "../components/ui/Title";
+import SquareCard from "../components/ui/SquareCard";
+import Wrapper from "../components/ui/Wrapper";
 
 function generateRandomNumb(min, max, exclude) {
   const rndNum = Math.floor(Math.random() * (max - min)) + min;
@@ -17,9 +19,15 @@ function generateRandomNumb(min, max, exclude) {
 let minBoundary = 1;
 let maxBoundary = 100;
 
-const GameScreen = ({ userNumber }) => {
-  const initialGuess = generateRandomNumb(minBoundary, maxBoundary, userNumber);
+const GameScreen = ({ userNumber, onGameOver }) => {
+  const initialGuess = generateRandomNumb(1, 100, userNumber);
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
+
+  useEffect(() => {
+    if (userNumber === currentGuess) {
+      onGameOver();
+    }
+  }, [userNumber, currentGuess, onGameOver]);
 
   const nextGuessHandler = (direction) => {
     if (
@@ -43,38 +51,29 @@ const GameScreen = ({ userNumber }) => {
       currentGuess
     );
     setCurrentGuess(newRndNumber);
-  }
+  };
 
   return (
-    <View style={styles.container}>
-      <Title>Opponent's Guess</Title>
+    <Wrapper>
+      <SquareCard>
+        <Title>Opponent's Guess</Title>
+      </SquareCard>
       <NumberContainer>{currentGuess}</NumberContainer>
-      <View>
-        <Text>Higher or lower?</Text>
-        <View>
-          <PrimaryButton
-            successColor
-            pressHandler={nextGuessHandler.bind(this, "higher")}
-          >
-            +
-          </PrimaryButton>
-          <PrimaryButton pressHandler={nextGuessHandler.bind(this, "lower")}>
-            -
-          </PrimaryButton>
-        </View>
-      </View>
-      <View>
-        <Text>LOG ROUNDS</Text>
-      </View>
-    </View>
+      <SquareCard>
+        <Title small>Higher or lower?</Title>
+        <ButtonGroup
+          textLarge
+          leftBtnName="+"
+          leftBtnHandler={nextGuessHandler.bind(this, "higher")}
+          rightBtnName="-"
+          rightBtnHandler={nextGuessHandler.bind(this, "lower")}
+        />
+      </SquareCard>
+      <SquareCard>
+        <Title small>LOG ROUNDS</Title>
+      </SquareCard>
+    </Wrapper>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 50,
-  },
-});
 
 export default GameScreen;

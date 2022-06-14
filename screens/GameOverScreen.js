@@ -1,8 +1,10 @@
-import { View } from "react-native"
+import { View, Text } from "react-native"
 
 const GameOverScreen = () => {
   return (
-    <View></View>
+    <View>
+      <Text>Game Over</Text>
+    </View>
   )
 }
 
