@@ -1,10 +1,11 @@
-import { Alert } from "react-native";
+import { Alert, FlatList } from "react-native";
 import { useEffect, useState } from "react";
 import NumberContainer from "../components/game/NumberContainer";
 import ButtonGroup from "../components/ui/ButtonGroup";
 import Title from "../components/ui/Title";
 import SquareCard from "../components/ui/SquareCard";
 import Wrapper from "../components/ui/Wrapper";
+import GuessLoginItem from "../components/game/GuessLoginItem";
 
 function generateRandomNumb(min, max, exclude) {
   const rndNum = Math.floor(Math.random() * (max - min)) + min;
@@ -22,12 +23,18 @@ let maxBoundary = 100;
 const GameScreen = ({ userNumber, onGameOver }) => {
   const initialGuess = generateRandomNumb(1, 100, userNumber);
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
+  const [guessRounds, setGuessRounds] = useState([initialGuess]);
 
   useEffect(() => {
     if (userNumber === currentGuess) {
-      onGameOver();
+      onGameOver(guessRounds.length);
     }
   }, [userNumber, currentGuess, onGameOver]);
+
+  useEffect(() => {
+    minBoundary = 1;
+    maxBoundary = 100;
+  }, []);
 
   const nextGuessHandler = (direction) => {
     if (
@@ -51,7 +58,10 @@ const GameScreen = ({ userNumber, onGameOver }) => {
       currentGuess
     );
     setCurrentGuess(newRndNumber);
+    setGuessRounds((prevGuessRound) => [newRndNumber, ...prevGuessRound]);
   };
+
+  const guessRoundsListLength = guessRounds.length;
 
   return (
     <Wrapper>
@@ -69,9 +79,16 @@ const GameScreen = ({ userNumber, onGameOver }) => {
           rightBtnHandler={nextGuessHandler.bind(this, "lower")}
         />
       </SquareCard>
-      <SquareCard>
-        <Title small>LOG ROUNDS</Title>
-      </SquareCard>
+      <FlatList
+        data={guessRounds}
+        renderItem={({ item, index }) => (
+          <GuessLoginItem
+            roundNumber={guessRoundsListLength - index}
+            guess={item}
+          />
+        )}
+        keyExtractor={(item) => item}
+      />
     </Wrapper>
   );
 };

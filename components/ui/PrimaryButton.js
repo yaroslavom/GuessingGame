@@ -1,10 +1,11 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import Colors from "../../constants/Colors";
 
-const PrimaryButton = ({ children, pressHandler, successColor, textLarge }) => {
+const PrimaryButton = ({ children, pressHandler, successColor, textLarge, longButton }) => {
   const combineStyles = StyleSheet.flatten([
     styles.container,
     successColor ? styles.greenColor : styles.yaleColor,
+    longButton && styles.longButton
   ]);
 
   return (
@@ -38,6 +39,10 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     shadowOpacity: 0.4,
   },
+  longButton: {
+    width: '100%',
+    paddingHorizontal: 20
+  },
   greenColor: {
     backgroundColor: Colors.success500,
   },
@@ -47,7 +52,7 @@ const styles = StyleSheet.create({
   text: {
     color: Colors.white,
     textAlign: "center",
-    lineHeight: 24,
+    lineHeight: 28,
   },
   textSmall: {
     fontSize: 18,
