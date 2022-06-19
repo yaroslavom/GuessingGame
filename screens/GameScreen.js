@@ -1,4 +1,10 @@
-import { Alert, FlatList } from "react-native";
+import {
+  View,
+  Alert,
+  FlatList,
+  StyleSheet,
+  useWindowDimensions,
+} from "react-native";
 import { useEffect, useState } from "react";
 import NumberContainer from "../components/game/NumberContainer";
 import ButtonGroup from "../components/ui/ButtonGroup";
@@ -24,6 +30,7 @@ const GameScreen = ({ userNumber, onGameOver }) => {
   const initialGuess = generateRandomNumb(1, 100, userNumber);
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
   const [guessRounds, setGuessRounds] = useState([initialGuess]);
+  const { width } = useWindowDimensions();
 
   useEffect(() => {
     if (userNumber === currentGuess) {
@@ -63,12 +70,9 @@ const GameScreen = ({ userNumber, onGameOver }) => {
 
   const guessRoundsListLength = guessRounds.length;
 
-  return (
-    <Wrapper>
-      <SquareCard>
-        <Title>Opponent's Guess</Title>
-      </SquareCard>
-      <NumberContainer>{currentGuess}</NumberContainer>
+  let content = (
+    <View style={styles.indentBottom}>
+        <NumberContainer>{currentGuess}</NumberContainer>
       <SquareCard>
         <Title small>Higher or lower?</Title>
         <ButtonGroup
@@ -79,6 +83,31 @@ const GameScreen = ({ userNumber, onGameOver }) => {
           rightBtnHandler={nextGuessHandler.bind(this, "lower")}
         />
       </SquareCard>
+    </View>
+  );
+
+  if (width > 500) {
+    content = (
+      <View style={styles.container}>
+        <ButtonGroup
+          textLarge
+          leftBtnName="+"
+          leftBtnHandler={nextGuessHandler.bind(this, "higher")}
+          rightBtnName="-"
+          rightBtnHandler={nextGuessHandler.bind(this, "lower")}
+        >
+          <NumberContainer>{currentGuess}</NumberContainer>
+        </ButtonGroup>
+      </View>
+    );
+  }
+
+  return (
+    <Wrapper>
+      <SquareCard>
+        <Title>Opponent's Guess</Title>
+      </SquareCard>
+      {content}
       <FlatList
         data={guessRounds}
         renderItem={({ item, index }) => (
@@ -92,5 +121,14 @@ const GameScreen = ({ userNumber, onGameOver }) => {
     </Wrapper>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    marginHorizontal: 30,
+  },
+  indentBottom: {
+    marginBottom: 15,
+  },
+});
 
 export default GameScreen;

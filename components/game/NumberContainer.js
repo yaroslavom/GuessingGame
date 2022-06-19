@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Dimensions } from "react-native";
 import Colors from "../../constants/Colors";
 import ShadowWrapper from "../ui/ShadowWrapper";
 
@@ -14,6 +14,8 @@ const NumberContainer = ({ children }) => {
   );
 };
 
+const devicesWidth = Dimensions.get("window").width;
+
 const styles = StyleSheet.create({
   container: {
     borderWidth: 4,
@@ -26,8 +28,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   circleContainer: {
-    height: 75,
-    width: 75,
+    height: devicesWidth < 380 ? 75 : 100,
+    width: devicesWidth < 380 ? 75 : 100,
     borderWidth: 3,
     borderColor: Colors.primary500,
     borderRadius: 50,
@@ -36,8 +38,8 @@ const styles = StyleSheet.create({
   },
   numberText: {
     color: Colors.primary500,
-    fontSize: 36,
-    fontFamily: 'open-sans-bold',
+    fontSize: devicesWidth < 380 ? 36 : 40,
+    fontFamily: "open-sans-bold",
     textAlign: "center",
   },
 });

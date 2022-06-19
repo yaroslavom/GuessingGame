@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Alert, StyleSheet, TextInput } from "react-native";
+import KeyboardAvoidingWrapper from "../components/ui/KeyboardAvoidingWrapper";
+import Wrapper from "../components/ui/Wrapper";
 import Title from "../components/ui/Title";
 import ButtonGroup from "../components/ui/ButtonGroup";
 import Paper from "../components/ui/Paper";
 import SquareCard from "../components/ui/SquareCard";
-import Wrapper from "../components/ui/Wrapper";
 import Colors from "../constants/Colors";
 
 const StartGameScreen = ({ onPickNumber }) => {
@@ -31,29 +32,31 @@ const StartGameScreen = ({ onPickNumber }) => {
   };
 
   return (
-    <Wrapper>
-      <SquareCard>
-        <Title>Guess My Number</Title>
-      </SquareCard>
-      <Paper>
-        <Title small>Enter a number</Title>
-        <TextInput
-          style={styles.input}
-          maxLength={2}
-          keyboardType="number-pad"
-          autoCapitalize="none"
-          autoCorrect={false}
-          value={enteredNumber}
-          onChangeText={changeInputHandler}
-        />
-        <ButtonGroup
-          leftBtnName="Confirm"
-          leftBtnHandler={confirmInputHandler}
-          rightBtnName="Reset"
-          rightBtnHandler={resetInputHandler}
-        />
-      </Paper>
-    </Wrapper>
+    <KeyboardAvoidingWrapper>
+      <Wrapper>
+        <SquareCard>
+          <Title>Guess My Number</Title>
+        </SquareCard>
+        <Paper>
+          <Title small>Enter a number</Title>
+          <TextInput
+            style={styles.input}
+            maxLength={2}
+            keyboardType="number-pad"
+            autoCapitalize="none"
+            autoCorrect={false}
+            value={enteredNumber}
+            onChangeText={changeInputHandler}
+          />
+          <ButtonGroup
+            leftBtnName="Confirm"
+            leftBtnHandler={confirmInputHandler}
+            rightBtnName="Reset"
+            rightBtnHandler={resetInputHandler}
+          />
+        </Paper>
+      </Wrapper>
+    </KeyboardAvoidingWrapper>
   );
 };
 
@@ -63,7 +66,7 @@ const styles = StyleSheet.create({
     width: 60,
     textAlign: "center",
     fontSize: 32,
-    fontFamily: 'open-sans-bold',
+    fontFamily: "open-sans-bold",
     color: Colors.secondary,
     marginVertical: 10,
     borderBottomColor: Colors.secondary,
