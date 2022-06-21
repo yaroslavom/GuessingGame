@@ -10,4 +10,6 @@ const Colors = {
   info600: "#0d3c73",
 };
 
+// Can set to file name: Colors.android || Colors.ios and use different color, but with same key.
+
 export default Colors;

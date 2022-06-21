@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Platform } from "react-native";
 import Colors from "../../constants/Colors";
 import ShadowWrapper from "./ShadowWrapper";
 
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 30,
     marginHorizontal: 25,
-    borderRadius: 10,
+    borderRadius: Platform.OS === 'ios' ? 10 : 0, // or Platform.select({ ios: 10, android: 0 })
     backgroundColor: Colors.primary500,
   },
 });
